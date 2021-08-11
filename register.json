@@ -1,0 +1,23 @@
+{
+"name":"oracledb19",
+"config": {
+    "connector.class":"io.debezium.connector.oracle.OracleConnector",
+    "db_type":"oracle",
+    "tasks.max":"1",
+    "database.server.name":"oracledb19",
+    "database.tablename.case.insensitive":"true",
+    "database.oracle.version":"12+",
+    "database.hostname":"localhost",
+    "database.port":"1521",
+    "database.user":"c##debezium",
+    "database.password":"dbz",
+    "database.dbname":"ORCLCDB",
+    "database.pdb.name":"ORCLPDB1",
+    "database.out.server.name":"dbzxout",
+    "database.history.kafka.bootstrap.servers":"kafka:9092",
+    "database.history.kafka.topic":"debezium.oracle",
+    "database.history.skip.unparseable.ddl":"true",
+    "include.schema.changes":"true",
+    "table.whitelist":"DEBEZIUM.CUSTOMERS"
+  }
+}

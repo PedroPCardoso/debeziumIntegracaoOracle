@@ -1,0 +1,19 @@
+
+{
+  "name": "inventory-top57",
+  "config": {
+    "connector.class": "io.debezium.connector.oracle.OracleConnector",
+    "tasks.max": "1",
+    "database.server.name": "server132",
+    "database.hostname": "172.31.0.6",
+    "database.port": "1521",
+    "database.user": "debezium",
+    "database.password": "dbz",
+    "snapshot.mode":"initial",
+    "database.dbname": "ORCLPDB1",
+    "table.include.list":"debezium.orders",
+    "database.connection.adapter": "logminer",
+    "database.history.kafka.bootstrap.servers": "kafka:9092",
+    "database.history.kafka.topic": "schema-changes.inventory"
+  }
+}

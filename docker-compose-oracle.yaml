@@ -1,0 +1,63 @@
+version: '2'
+services:
+  zookeeper:
+    image: debezium/zookeeper:${DEBEZIUM_VERSION}
+    ports:
+     - 2181:2181
+     - 2888:2888
+     - 3888:3888
+
+    networks:
+     - oracle_kafka
+  kafka:
+    image: debezium/kafka:${DEBEZIUM_VERSION}
+    ports:
+     - 9092:9092
+    links:
+     - zookeeper
+    environment:
+     - ZOOKEEPER_CONNECT=zookeeper:2181
+
+    networks:
+     - oracle_kafka                                                                                                                                                                                                                                                                                             
+  connect:
+    image: debezium/connect-with-oracle-jdbc:${DEBEZIUM_VERSION}
+    build:
+      context: debezium-with-oracle-jdbc
+      args:
+        DEBEZIUM_VERSION: ${DEBEZIUM_VERSION}
+    ports:
+     - 8083:8083
+     - 5005:5005
+    links:
+     - kafka
+    environment:
+     - BOOTSTRAP_SERVERS=kafka:9092
+     - GROUP_ID=1
+     - CONFIG_STORAGE_TOPIC=my_connect_configs
+     - OFFSET_STORAGE_TOPIC=my_connect_offsets
+     - STATUS_STORAGE_TOPIC=my_connect_statuses
+     - LD_LIBRARY_PATH=/instant_client
+     - KAFKA_DEBUG=true
+     - DEBUG_SUSPEND_FLAG=n
+     - JAVA_DEBUG_PORT=0.0.0.0:5005
+    networks:
+     - oracle_kafka
+  control-center:
+    image: confluentinc/cp-enterprise-control-center:6.0.1
+    hostname: control-center
+    user: root
+    depends_on:
+      - kafka
+    ports:
+      - "9021:9021"
+    environment:
+      CONTROL_CENTER_BOOTSTRAP_SERVERS: 'kafka:9092'
+      CONTROL_CENTER_REPLICATION_FACTOR: 1
+      CONTROL_CENTER_CONNECT_CLUSTER: http://connect:8083
+      PORT: 9021
+    networks:
+      - oracle_kafka
+networks:
+    oracle_kafka:
+      driver: bridge
