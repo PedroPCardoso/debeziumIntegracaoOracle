@@ -1,4 +1,5 @@
 register-oracle-logminer.json
 register-teste.json
 iw.json
-debezium-with-oracle-jdbc/oracle_instantclient
+oracle_instantclient
+debezium-with-oracle-jdbc
