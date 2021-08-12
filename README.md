@@ -14,6 +14,8 @@ curl https://raw.githubusercontent.com/debezium/oracle-vagrant-box/master/setup-
 
 curl  https://raw.githubusercontent.com/debezium/debezium-examples/master/tutorial/debezium-with-oracle-jdbc/init/inventory.sql | sqlplus debezium/dbz@//localhost:1521/ORCLPDB1
 
+curl https://raw.githubusercontent.com/PedroPCardoso/debeziumIntegracaoOracle/main/newInventory.sql | sqlplus debezium/dbz@//localhost:1521/ORCLPDB1
+
 
 export DEBEZIUM_VERSION=1.5
 docker-compose -f docker-compose-oracle.yaml up --build
